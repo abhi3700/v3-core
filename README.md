@@ -29,7 +29,6 @@ import {
 } from '@uniswap/v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json'
 
 // deploy the bytecode
-
 ```
 
 This will ensure that you are testing against the same bytecode that is deployed to
@@ -47,13 +46,10 @@ import '@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol';
 contract MyContract {
   IUniswapV3Pool pool;
 
-
   function doSomethingWithPool() {
     // pool.swap(...);
   }
 }
-
-
 
 ```
 
