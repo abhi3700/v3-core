@@ -1,66 +1,70 @@
-## Foundry
+# Uniswap V3
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+[![Lint](https://github.com/Uniswap/uniswap-v3-core/actions/workflows/lint.yml/badge.svg)](https://github.com/Uniswap/uniswap-v3-core/actions/workflows/lint.yml)
+[![Tests](https://github.com/Uniswap/uniswap-v3-core/actions/workflows/tests.yml/badge.svg)](https://github.com/Uniswap/uniswap-v3-core/actions/workflows/tests.yml)
+[![Fuzz Testing](https://github.com/Uniswap/uniswap-v3-core/actions/workflows/fuzz-testing.yml/badge.svg)](https://github.com/Uniswap/uniswap-v3-core/actions/workflows/fuzz-testing.yml)
+[![Mythx](https://github.com/Uniswap/uniswap-v3-core/actions/workflows/mythx.yml/badge.svg)](https://github.com/Uniswap/uniswap-v3-core/actions/workflows/mythx.yml)
+[![npm version](https://img.shields.io/npm/v/@uniswap/v3-core/latest.svg)](https://www.npmjs.com/package/@uniswap/v3-core/v/latest)
 
-Foundry consists of:
+This repository contains the core smart contracts for the Uniswap V3 Protocol.
+For higher level contracts, see the [uniswap-v3-periphery](https://github.com/Uniswap/uniswap-v3-periphery)
+repository.
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+## Bug bounty
 
-## Documentation
+This repository is subject to the Uniswap V3 bug bounty program, per the terms defined [here](./bug-bounty.md).
 
-https://book.getfoundry.sh/
+## Local deployment
 
-## Usage
+In order to deploy this code to a local testnet, you should install the npm package
+`@uniswap/v3-core`
+and import the factory bytecode located at
+`@uniswap/v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json`.
+For example:
 
-### Build
+```typescript
+import {
+  abi as FACTORY_ABI,
+  bytecode as FACTORY_BYTECODE,
+} from '@uniswap/v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json'
 
-```shell
-$ forge build
+// deploy the bytecode
+
 ```
 
-### Test
+This will ensure that you are testing against the same bytecode that is deployed to
+mainnet and public testnets, and all Uniswap code will correctly interoperate with
+your local deployment.
 
-```shell
-$ forge test
+## Using solidity interfaces
+
+The Uniswap v3 interfaces are available for import into solidity smart contracts
+via the npm artifact `@uniswap/v3-core`, e.g.:
+
+```solidity
+import '@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol';
+
+contract MyContract {
+  IUniswapV3Pool pool;
+
+
+  function doSomethingWithPool() {
+    // pool.swap(...);
+  }
+}
+
+
+
 ```
 
-### Format
+## Licensing
 
-```shell
-$ forge fmt
-```
+The primary license for Uniswap V3 Core is the Business Source License 1.1 (`BUSL-1.1`), see [`LICENSE`](./LICENSE). However, some files are dual licensed under `GPL-2.0-or-later`:
 
-### Gas Snapshots
+- All files in `contracts/interfaces/` may also be licensed under `GPL-2.0-or-later` (as indicated in their SPDX headers), see [`contracts/interfaces/LICENSE`](./contracts/interfaces/LICENSE)
+- Several files in `contracts/libraries/` may also be licensed under `GPL-2.0-or-later` (as indicated in their SPDX headers), see [`contracts/libraries/LICENSE`](contracts/libraries/LICENSE)
 
-```shell
-$ forge snapshot
-```
+### Other Exceptions
 
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+- `contracts/libraries/FullMath.sol` is licensed under `MIT` (as indicated in its SPDX header), see [`contracts/libraries/LICENSE_MIT`](contracts/libraries/LICENSE_MIT)
+- All files in `contracts/test` remain unlicensed (as indicated in their SPDX headers).
